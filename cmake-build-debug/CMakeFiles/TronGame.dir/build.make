@@ -77,6 +77,7 @@ include CMakeFiles/TronGame.dir/progress.make
 include CMakeFiles/TronGame.dir/flags.make
 
 CMakeFiles/TronGame.dir/main.cpp.obj: CMakeFiles/TronGame.dir/flags.make
+CMakeFiles/TronGame.dir/main.cpp.obj: CMakeFiles/TronGame.dir/includes_CXX.rsp
 CMakeFiles/TronGame.dir/main.cpp.obj: ../main.cpp
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\karol\OneDrive\Pulpit\TronGame\TronGame\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/TronGame.dir/main.cpp.obj"
 	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\G__~1.EXE  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\TronGame.dir\main.cpp.obj -c C:\Users\karol\OneDrive\Pulpit\TronGame\TronGame\main.cpp
@@ -98,6 +99,11 @@ TronGame_EXTERNAL_OBJECTS =
 
 TronGame.exe: CMakeFiles/TronGame.dir/main.cpp.obj
 TronGame.exe: CMakeFiles/TronGame.dir/build.make
+TronGame.exe: C:/SFML-2.5.1/lib/libsfml-system-d.a
+TronGame.exe: C:/SFML-2.5.1/lib/libsfml-window-d.a
+TronGame.exe: C:/SFML-2.5.1/lib/libsfml-graphics-d.a
+TronGame.exe: C:/SFML-2.5.1/lib/libsfml-network-d.a
+TronGame.exe: C:/SFML-2.5.1/lib/libsfml-audio-d.a
 TronGame.exe: CMakeFiles/TronGame.dir/linklibs.rsp
 TronGame.exe: CMakeFiles/TronGame.dir/objects1.rsp
 TronGame.exe: CMakeFiles/TronGame.dir/link.txt
