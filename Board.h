@@ -15,9 +15,13 @@ public:
     int H;
     int size;
 
+    Texture background;
+    Texture player1;
+    Texture player2;
 
     Board(int width, int height, int size);
 
+    void loadTextures();
 
 };
 

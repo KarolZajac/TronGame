@@ -12,8 +12,7 @@ using namespace sf;
 class GameEngine {
 
 public:
-
-    static void run();
+    static void run(Board board);
 };
 
 
