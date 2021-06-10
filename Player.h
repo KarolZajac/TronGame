@@ -6,10 +6,15 @@
 class Player {
 
 public:
+
+    Player()= default;;
+
     Player(int x, int y);
 
     int yPosition;
     int xPosition;
+
+    void changePosition(int x, int y );
 };
 
 

@@ -14,17 +14,20 @@ public:
     int W{};
     int H{};
     int size{};
-
+    int **traceArray{};
 
     //textures
     Texture background;
     Texture player1;
     Texture player2;
 
-    Board()= default;;
+    Board() = default;;
+
     Board(int width, int height, int size);
 
     void loadTextures();
+
+    static int ** create2DArray(int width, int height);
 
 };
 

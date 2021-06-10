@@ -6,7 +6,6 @@
 
 using namespace sf;
 
-
 void GameEngine::run() {
 
     board.loadTextures();
@@ -17,10 +16,9 @@ void GameEngine::run() {
     Sprite Player1(board.player1);
     Sprite Player2(board.player2);
 
-    Player player1 = Player(39 * board.size, 15 * board.size);
-    Player player2 = Player(5 * board.size, 15 * board.size);
+    initPlayers();
 
-    float timer = 0, delay = 0.2;
+    float timer = 0, delay = 0.1;
     Clock clock;
 
     while (window.isOpen()) {
@@ -43,6 +41,11 @@ void GameEngine::run() {
             player2.xPosition += x2;
             player2.yPosition += y2;
 
+            if (board.traceArray[player1.yPosition / board.size][player1.xPosition / board.size] == 0)
+                board.traceArray[player1.yPosition / board.size][player1.xPosition / board.size] = 1;
+            if (board.traceArray[player2.yPosition / board.size][player2.xPosition / board.size] == 0)
+                board.traceArray[player2.yPosition / board.size][player2.xPosition / board.size] = 2;
+
             timer = 0;
         }
 
@@ -51,8 +54,17 @@ void GameEngine::run() {
         //drawing background
         for (int i = 0; i < board.H; i++) {
             for (int k = 0; k < board.W; k++) {
-                Background.setPosition((float) (k * board.size), (float) (i * board.size));
-                window.draw(Background);
+                if (board.traceArray[i][k] == 0) {
+                    Background.setPosition((float) (k * board.size), (float) (i * board.size));
+                    window.draw(Background);
+                } else if (board.traceArray[i][k] == 1) {
+                    Player1.setPosition((float) (k * board.size), (float) (i * board.size));
+                    window.draw(Player1);
+                } else if (board.traceArray[i][k] == 2) {
+                    Player2.setPosition((float) (k * board.size), (float) (i * board.size));
+                    window.draw(Player2);
+                }
+
             }
         }
         //drawing players
@@ -70,16 +82,22 @@ void GameEngine::updateMove(int &x1, int &x2, int &y1, int &y2) const {
 
     //printf("test");
     //player1 moves with arrow keys
-    if (Keyboard::isKeyPressed(Keyboard::Left)) { x1 = -board.size, y1 = 0; }
-    if (Keyboard::isKeyPressed(Keyboard::Right)) { x1 = board.size, y1 = 0; }
-    if (Keyboard::isKeyPressed(Keyboard::Up)) { x1 = 0, y1 = -board.size; }
-    if (Keyboard::isKeyPressed(Keyboard::Down)) { x1 = 0, y1 = board.size; }
+    if (Keyboard::isKeyPressed(Keyboard::Left) && x1 != board.size) { x1 = -board.size, y1 = 0; }
+    if (Keyboard::isKeyPressed(Keyboard::Right) && x1 != -board.size) { x1 = board.size, y1 = 0; }
+    if (Keyboard::isKeyPressed(Keyboard::Up) && y1 != -board.size) { x1 = 0, y1 = -board.size; }
+    if (Keyboard::isKeyPressed(Keyboard::Down) && y1 != -board.size) { x1 = 0, y1 = board.size; }
 
     //player2 moves with WSDA keys
-    if (Keyboard::isKeyPressed(Keyboard::A)) { x2 = -board.size, y2 = 0; }
-    if (Keyboard::isKeyPressed(Keyboard::D)) { x2 = board.size, y2 = 0; }
-    if (Keyboard::isKeyPressed(Keyboard::W)) { x2 = 0, y2 = -board.size; }
-    if (Keyboard::isKeyPressed(Keyboard::S)) { x2 = 0, y2 = board.size; }
+    if (Keyboard::isKeyPressed(Keyboard::A) && x2 != -board.size) { x2 = -board.size, y2 = 0; }
+    if (Keyboard::isKeyPressed(Keyboard::D) && x2 != -board.size) { x2 = board.size, y2 = 0; }
+    if (Keyboard::isKeyPressed(Keyboard::W) && y2 != -board.size) { x2 = 0, y2 = -board.size; }
+    if (Keyboard::isKeyPressed(Keyboard::S) && y2 != -board.size) { x2 = 0, y2 = board.size; }
 
 }
+
+void GameEngine::initPlayers() {
+    this->player1.changePosition(39 * board.size, 15 * board.size);
+    this->player2.changePosition(5 * board.size, 15 * board.size);
+}
+
 
