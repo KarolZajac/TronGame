@@ -13,8 +13,8 @@ void GameEngine::run() {
 
     //sprites for background and players textures
     Sprite Background(board.background);
-    Sprite Player1(board.player1);
-    Sprite Player2(board.player2);
+    Sprite Player1(board.color1);
+    Sprite Player2(board.color2);
 
     initPlayers();
 
@@ -41,6 +41,11 @@ void GameEngine::run() {
             player2.xPosition += x2;
             player2.yPosition += y2;
 
+            board.boardWrapping(player1,player2);
+
+            checkCollision(x1,x2,y1,y2);
+
+            //filling array for drawing player's traces
             if (board.traceArray[player1.yPosition / board.size][player1.xPosition / board.size] == 0)
                 board.traceArray[player1.yPosition / board.size][player1.xPosition / board.size] = 1;
             if (board.traceArray[player2.yPosition / board.size][player2.xPosition / board.size] == 0)
@@ -73,31 +78,52 @@ void GameEngine::run() {
         Player2.setPosition((float) player2.xPosition, (float) player2.yPosition);
         window.draw(Player2);
 
+        if(player1.counter>0 || player2.counter>0){
+            sleep(microseconds(250));
+            initPlayers();
+            x1 = 0;y1 = 0; x2 = 0; y2 = 0;
+            board.traceArray=Board::create2DArray(board.W, board.H);
+        }
+
         window.display();
     }
 
 }
 
+//listening if players using keys for moving
 void GameEngine::updateMove(int &x1, int &x2, int &y1, int &y2) const {
 
     //printf("test");
     //player1 moves with arrow keys
     if (Keyboard::isKeyPressed(Keyboard::Left) && x1 != board.size) { x1 = -board.size, y1 = 0; }
     if (Keyboard::isKeyPressed(Keyboard::Right) && x1 != -board.size) { x1 = board.size, y1 = 0; }
-    if (Keyboard::isKeyPressed(Keyboard::Up) && y1 != -board.size) { x1 = 0, y1 = -board.size; }
+    if (Keyboard::isKeyPressed(Keyboard::Up) && y1 != board.size) { x1 = 0, y1 = -board.size; }
     if (Keyboard::isKeyPressed(Keyboard::Down) && y1 != -board.size) { x1 = 0, y1 = board.size; }
 
     //player2 moves with WSDA keys
-    if (Keyboard::isKeyPressed(Keyboard::A) && x2 != -board.size) { x2 = -board.size, y2 = 0; }
+    if (Keyboard::isKeyPressed(Keyboard::A) && x2 != board.size) { x2 = -board.size, y2 = 0; }
     if (Keyboard::isKeyPressed(Keyboard::D) && x2 != -board.size) { x2 = board.size, y2 = 0; }
-    if (Keyboard::isKeyPressed(Keyboard::W) && y2 != -board.size) { x2 = 0, y2 = -board.size; }
+    if (Keyboard::isKeyPressed(Keyboard::W) && y2 != board.size) { x2 = 0, y2 = -board.size; }
     if (Keyboard::isKeyPressed(Keyboard::S) && y2 != -board.size) { x2 = 0, y2 = board.size; }
 
 }
 
+//random player start positions
 void GameEngine::initPlayers() {
     this->player1.changePosition(39 * board.size, 15 * board.size);
     this->player2.changePosition(5 * board.size, 15 * board.size);
+    this->player1.counter=0;
+    this->player2.counter=0;
 }
+
+void GameEngine::checkCollision(int &x1, int &x2, int &y1, int &y2) {
+    //handle collisions
+    if (board.traceArray[player1.yPosition / board.size][player1.xPosition / board.size] == 1 && x1 + y1 !=0 ||
+        board.traceArray[player1.yPosition / board.size][player1.xPosition / board.size] == 2) {player2.counter++; printf("Player 2 scored!");}
+    if (board.traceArray[player2.yPosition / board.size][player2.xPosition / board.size] == 2 && x2 + y2 !=0 ||
+        board.traceArray[player2.yPosition / board.size][player2.xPosition / board.size] == 1) {player1.counter++;printf("Player 1 scored!");}
+}
+
+
 
 

@@ -6,13 +6,13 @@
 class Player {
 
 public:
+    int xPosition;
+    int yPosition;
+    int counter;
 
     Player()= default;;
 
     Player(int x, int y);
-
-    int yPosition;
-    int xPosition;
 
     void changePosition(int x, int y );
 };

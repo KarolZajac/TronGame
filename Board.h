@@ -4,6 +4,7 @@
 #define TRONGAME_BOARD_H
 
 #include "SFML/Graphics.hpp"
+#include "Player.h"
 
 using namespace sf;
 
@@ -18,8 +19,8 @@ public:
 
     //textures
     Texture background;
-    Texture player1;
-    Texture player2;
+    Texture color1;
+    Texture color2;
 
     Board() = default;;
 
@@ -28,6 +29,9 @@ public:
     void loadTextures();
 
     static int ** create2DArray(int width, int height);
+
+    void boardWrapping(Player &player1, Player &player2) const;
+
 
 };
 
