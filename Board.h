@@ -11,10 +11,12 @@ class Board {
 
 public:
 
+    //board parameters
     int W;
     int H;
     int size;
 
+    //textures
     Texture background;
     Texture player1;
     Texture player2;

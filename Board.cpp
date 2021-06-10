@@ -6,6 +6,7 @@
 
 using namespace sf;
 
+//constructor
 Board::Board(int width, int height, int size) {
 
     this->W = width;
@@ -13,6 +14,7 @@ Board::Board(int width, int height, int size) {
     this->size = size;
 }
 
+//loading textures from resources
 void Board::loadTextures() {
 
     this->background.loadFromFile("resources/background.png");
