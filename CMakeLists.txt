@@ -3,7 +3,7 @@ project(TronGame)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(TronGame main.cpp GameEngine.h GameEngine.cpp Board.cpp Board.h GameEngine.cpp GameEngine.h Player.cpp Player.h)
+add_executable(TronGame main.cpp GameEngine.h GameEngine.cpp Board.cpp Board.h GameEngine.cpp GameEngine.h Player.cpp Player.h GameBar.cpp GameBar.h)
 
 include_directories( C:/SFML-2.5.1/include)
 set(SFML_ROOT C:/SFML-2.5.1)

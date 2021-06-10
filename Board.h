@@ -28,7 +28,7 @@ public:
 
     void loadTextures();
 
-    static int ** create2DArray(int width, int height);
+    static int **create2DArray(int width, int height);
 
     void boardWrapping(Player &player1, Player &player2) const;
 

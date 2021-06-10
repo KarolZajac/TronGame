@@ -30,7 +30,11 @@ public:
 
     void updateMove(int &x1, int &x2, int &y1, int &y2) const;
 
-    void checkCollision(int &x1, int &x2, int &y1, int &y2);
+    bool checkCollision(int &x1, int &x2, int &y1, int &y2);
+
+    void saveTrace() const;
+
+    void checkWinner();
 
 };
 

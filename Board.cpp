@@ -12,7 +12,7 @@ Board::Board(int width, int height, int size) {
     this->W = width;
     this->H = height;
     this->size = size;
-    this->traceArray = create2DArray(width,height);
+    this->traceArray = create2DArray(width, height);
 }
 
 //loading textures from resources
@@ -21,6 +21,7 @@ void Board::loadTextures() {
     this->background.loadFromFile("resources/background.png");
     this->color1.loadFromFile("resources/color1.png");
     this->color2.loadFromFile("resources/color2.png");
+
 }
 
 int **Board::create2DArray(int width, int height) {
@@ -44,9 +45,9 @@ void Board::boardWrapping(Player &player1, Player &player2) const {
     if (player1.yPosition < 0) player1.yPosition = (H - 1) * size;
 
     if (player2.xPosition >= W * size) player2.xPosition = 0;
-    if (player2.xPosition < 0) player2.xPosition = (W - 1) *size;
+    if (player2.xPosition < 0) player2.xPosition = (W - 1) * size;
     if (player2.yPosition >= H * size) player2.yPosition = 0;
-    if (player2.yPosition < 0) player2. yPosition = (H - 1) * size;
+    if (player2.yPosition < 0) player2.yPosition = (H - 1) * size;
 }
 
 
