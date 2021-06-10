@@ -6,65 +6,57 @@
 #include "Player.h"
 #include "SFML/Graphics.hpp"
 #include "GameBar.h"
+
 using namespace sf;
 
 void GameEngine::run() {
 
     board.loadTextures();
-    RenderWindow window(VideoMode(board.W * board.size, board.H * board.size), "TronGame");
+    bar.setTextProperties();
+    bar.p1Score.setPosition(0, 0);
+    bar.p2Score.setPosition((float) (board.W * board.size - 100), 0);
+    bar.p1Covered.setPosition(0, 30);
+    bar.p2Covered.setPosition((float) (board.W * board.size - 100), 30);
+    bar.timer.setPosition((float) (board.W * board.size /2.0), 0);
+
 
     //sprites for background and players textures
     Sprite Background(board.background);
     Sprite Player1(board.color1);
     Sprite Player2(board.color2);
-    Player1.setScale(board.size / 16.0, board.size / 16.0);
-    Player2.setScale(board.size / 16.0, board.size / 16.0);
-    Background.setScale(board.size / 16.0, board.size / 16.0);
+    Player1.setScale((float) board.size / 16, (float) board.size / 16);
+    Player2.setScale((float) board.size / 16, (float) board.size / 16);
+    Background.setScale((float) board.size / 16, (float) board.size / 16);
+
+    RenderWindow window(VideoMode(board.W * board.size, board.H * board.size), "TronGame");
     initPlayers();
-
-
-    Font font;
-    font.loadFromFile("fonts/CENTAUR.TTF");
-    Text p1Score, p2Score;
-
-    p1Score.setFont(font);
-    p2Score.setFont(font);
-
-    p1Score.setFillColor(Color::Red);
-    p2Score.setFillColor(Color::Cyan);
-
-    p1Score.setPosition(0,0);
-    p2Score.setPosition(600,0);
-
-    p1Score.setString("Wins: ");
-    p2Score.setString("Wins: ");
-
 
     float timer = 0, delay = 0.05;
     Clock clock;
-
-    float countdown = 10.f;
+    float countdown = gameTime;
 
     while (window.isOpen()) {
 
-        int collision;
-        float time = clock.getElapsedTime().asSeconds();
-       // printf("%f\n", countdown);
-        clock.restart();
-        timer += time;
-        countdown -= time;
-
-        /*if (countdown <= 0) {
-            checkWinner();
-            continue;
-        }*/
-
         Event event{};
-        while (window.pollEvent(event)) {
-            if (event.type == Event::Closed) { window.close(); }
-        }
+        while (window.pollEvent(event)) { if (event.type == Event::Closed) { window.close(); } }
 
+        //update wins, covered tiles and timer
+        bar.updateTexts(player1, player2, countdown);
+
+        int collision = 0;
         int x1 = 0, y1 = 0, x2 = 0, y2 = 0;
+
+        float time = clock.getElapsedTime().asSeconds();
+        clock.restart();
+        timer += time; countdown -= time;
+
+        if (countdown <= 0) {
+            checkWinner();
+            nextRound(x1, x2, y1, y2);
+            clock.restart();
+            countdown = gameTime;
+            continue;
+        }
         updateMove(x1, x2, y1, y2);
 
         if (timer > delay) {
@@ -76,9 +68,10 @@ void GameEngine::run() {
             board.boardWrapping(player1, player2);
             collision = checkCollision(x1, x2, y1, y2);
             saveTrace();
-
             timer = 0;
         }
+
+        if (collision == 1) { nextRound(x1, x2, y1, y2); countdown = gameTime; }
 
         window.clear();
 
@@ -104,34 +97,11 @@ void GameEngine::run() {
         Player2.setPosition((float) player2.xPosition, (float) player2.yPosition);
         window.draw(Player2);
 
-        std::stringstream ss;
-        ss << player1.score;
-        std::string si;
-        ss >> si;
-
-        std::stringstream ss2;
-        ss2 << player2.score;
-        std::string si2;
-        ss2 >> si2;
-
-        p1Score.setString("Wins: "+ si);
-        p2Score.setString("Wins: "+ si2);
-
-        window.draw((p1Score));
-        window.draw((p2Score));
-
-
-        if (collision == 1) {
-            printf("%d",player2.score);
-            printf("%d",player1.score);
-            sleep(seconds(3));
-            initPlayers();
-            x1 = 0;
-            y1 = 0;
-            x2 = 0;
-            y2 = 0;
-            board.traceArray = Board::create2DArray(board.W, board.H);
-        }
+        window.draw((this->bar.p1Score));
+        window.draw((this->bar.p2Score));
+        window.draw((this->bar.p1Covered));
+        window.draw((this->bar.p2Covered));
+        window.draw((this->bar.timer));
         window.display();
     }
 }
@@ -156,8 +126,8 @@ void GameEngine::updateMove(int &x1, int &x2, int &y1, int &y2) const {
 
 //random player start positions
 void GameEngine::initPlayers() {
-    this->player1.changePosition(5 * board.size, 15 * board.size);
-    this->player2.changePosition(39 * board.size, 15 * board.size);
+    this->player1.changePosition(board.W* board.size/4, board.H* board.size/2);
+    this->player2.changePosition(board.W* board.size - board.W* board.size/4, board.H* board.size/2);
     this->player1.covered = 0;
     this->player2.covered = 0;
 }
@@ -173,22 +143,49 @@ bool GameEngine::checkCollision(int &x1, int &x2, int &y1, int &y2) {
         board.traceArray[player2.yPosition / board.size][player2.xPosition / board.size] == 1) {
         player1.score++;
         return true;
-    }
-    else return false;
+    } else return false;
 }
 
-void GameEngine::saveTrace() const {
+void GameEngine::saveTrace() {
     //filling array for drawing player's traces
-    if (board.traceArray[player1.yPosition / board.size][player1.xPosition / board.size] == 0)
+    if (board.traceArray[player1.yPosition / board.size][player1.xPosition / board.size] == 0) {
         board.traceArray[player1.yPosition / board.size][player1.xPosition / board.size] = 1;
-    if (board.traceArray[player2.yPosition / board.size][player2.xPosition / board.size] == 0)
+        player1.covered++;
+    }
+
+    if (board.traceArray[player2.yPosition / board.size][player2.xPosition / board.size] == 0) {
         board.traceArray[player2.yPosition / board.size][player2.xPosition / board.size] = 2;
+        player2.covered++;
+    }
+
 }
 
 void GameEngine::checkWinner() {
     if (player1.covered > player2.covered) { player1.score++; }
     else if (player2.covered > player1.covered) { player2.score++; }
 }
+
+void GameEngine::nextRound(int &x1, int &x2, int &y1, int &y2) {
+    sleep(seconds(3));
+    initPlayers();
+    x1 = 0;
+    y1 = 0;
+    x2 = 0;
+    y2 = 0;
+    board.traceArray = Board::create2DArray(board.W, board.H);
+}
+
+void GameEngine::moveHandle(int &x1, int &x2, int &y1, int &y2) {
+    //change position
+    player1.xPosition += x1;
+    player1.yPosition += y1;
+    player2.xPosition += x2;
+    player2.yPosition += y2;
+
+
+
+}
+
 
 
 
