@@ -10,17 +10,18 @@ using namespace sf;
 class Board {
 
 public:
-
     //board parameters
-    int W;
-    int H;
-    int size;
+    int W{};
+    int H{};
+    int size{};
+
 
     //textures
     Texture background;
     Texture player1;
     Texture player2;
 
+    Board()= default;;
     Board(int width, int height, int size);
 
     void loadTextures();

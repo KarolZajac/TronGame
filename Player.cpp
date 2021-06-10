@@ -2,7 +2,7 @@
 
 #include "Player.h"
 
-Player::Player(float x, float y) {
+Player::Player(int x, int y) {
     this->xPosition = x;
     this->yPosition = y;
 }

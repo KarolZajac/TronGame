@@ -6,10 +6,10 @@
 class Player {
 
 public:
-    Player(float x, float y);
+    Player(int x, int y);
 
-    float yPosition;
-    float xPosition;
+    int yPosition;
+    int xPosition;
 };
 
 
