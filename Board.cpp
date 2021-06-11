@@ -18,9 +18,9 @@ Board::Board(int width, int height, int size) {
 //loading textures from resources
 void Board::loadTextures() {
 
-    this->background.loadFromFile("resources/background.png");
-    this->color1.loadFromFile("resources/color1.png");
-    this->color2.loadFromFile("resources/color2.png");
+    this->background.loadFromFile("resources/background2.png");
+    this->color1.loadFromFile("resources/player1.png");
+    this->color2.loadFromFile("resources/player2.png");
 
 }
 

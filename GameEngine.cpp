@@ -11,14 +11,8 @@ using namespace sf;
 
 void GameEngine::run() {
 
-    board.loadTextures();
-    bar.setTextProperties();
-    bar.p1Score.setPosition(0, 0);
-    bar.p2Score.setPosition((float) (board.W * board.size - 100), 0);
-    bar.p1Covered.setPosition(0, 30);
-    bar.p2Covered.setPosition((float) (board.W * board.size - 100), 30);
-    bar.timer.setPosition((float) (board.W * board.size /2.0), 0);
-
+    //set board and bar
+    setBoardAndBar();
 
     //sprites for background and players textures
     Sprite Background(board.background);
@@ -60,12 +54,7 @@ void GameEngine::run() {
         updateMove(x1, x2, y1, y2);
 
         if (timer > delay) {
-            player1.xPosition += x1;
-            player1.yPosition += y1;
-            player2.xPosition += x2;
-            player2.yPosition += y2;
-
-            board.boardWrapping(player1, player2);
+            moveHandle(x1, x2, y1, y2);
             collision = checkCollision(x1, x2, y1, y2);
             saveTrace();
             timer = 0;
@@ -110,17 +99,17 @@ void GameEngine::run() {
 void GameEngine::updateMove(int &x1, int &x2, int &y1, int &y2) const {
 
     //printf("test");
-    //player1 moves with arrow keys
-    if (Keyboard::isKeyPressed(Keyboard::Left) && x1 != board.size) { x1 = -board.size, y1 = 0; }
-    if (Keyboard::isKeyPressed(Keyboard::Right) && x1 != -board.size) { x1 = board.size, y1 = 0; }
-    if (Keyboard::isKeyPressed(Keyboard::Up) && y1 != board.size) { x1 = 0, y1 = -board.size; }
-    if (Keyboard::isKeyPressed(Keyboard::Down) && y1 != -board.size) { x1 = 0, y1 = board.size; }
+    //player1 moves with WSDA keys
+    if (Keyboard::isKeyPressed(Keyboard::A) && x1 != board.size) { x1 = -board.size, y1 = 0; }
+    if (Keyboard::isKeyPressed(Keyboard::D) && x1 != -board.size) { x1 = board.size, y1 = 0; }
+    if (Keyboard::isKeyPressed(Keyboard::W) && y1 != board.size) { x1 = 0, y1 = -board.size; }
+    if (Keyboard::isKeyPressed(Keyboard::S) && y1 != -board.size) { x1 = 0, y1 = board.size; }
 
-    //player2 moves with WSDA keys
-    if (Keyboard::isKeyPressed(Keyboard::A) && x2 != board.size) { x2 = -board.size, y2 = 0; }
-    if (Keyboard::isKeyPressed(Keyboard::D) && x2 != -board.size) { x2 = board.size, y2 = 0; }
-    if (Keyboard::isKeyPressed(Keyboard::W) && y2 != board.size) { x2 = 0, y2 = -board.size; }
-    if (Keyboard::isKeyPressed(Keyboard::S) && y2 != -board.size) { x2 = 0, y2 = board.size; }
+    //player2 moves with arrow keys
+    if (Keyboard::isKeyPressed(Keyboard::Left) && x2 != board.size) { x2 = -board.size, y2 = 0; }
+    if (Keyboard::isKeyPressed(Keyboard::Right) && x2 != -board.size) { x2 = board.size, y2 = 0; }
+    if (Keyboard::isKeyPressed(Keyboard::Up) && y2 != board.size) { x2 = 0, y2 = -board.size; }
+    if (Keyboard::isKeyPressed(Keyboard::Down) && y2 != -board.size) { x2 = 0, y2 = board.size; }
 
 }
 
@@ -182,9 +171,21 @@ void GameEngine::moveHandle(int &x1, int &x2, int &y1, int &y2) {
     player2.xPosition += x2;
     player2.yPosition += y2;
 
-
+    board.boardWrapping(player1, player2);
 
 }
+
+void GameEngine::setBoardAndBar() {
+    board.loadTextures();
+    bar.setTextProperties();
+    bar.p1Score.setPosition(0, 0);
+    bar.p2Score.setPosition((float) (board.W * board.size - 100), 0);
+    bar.p1Covered.setPosition(0, 30);
+    bar.p2Covered.setPosition((float) (board.W * board.size - 100), 30);
+    bar.timer.setPosition((float) (board.W * board.size /2.0), 0);
+}
+
+
 
 
 
