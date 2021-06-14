@@ -1,8 +1,5 @@
 
-
 #include "Board.h"
-#include "GameEngine.h"
-#include "SFML/Graphics.hpp"
 
 using namespace sf;
 
@@ -25,7 +22,7 @@ void Board::loadTextures() {
 }
 
 int **Board::create2DArray(int width, int height) {
-    int **array2D = nullptr;
+    int **array2D;
     array2D = new int *[height];
 
     for (int h = 0; h < height; h++) {

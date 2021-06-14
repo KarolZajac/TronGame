@@ -1,6 +1,3 @@
-//
-// Created by Karol on 10.06.2021.
-//
 
 #ifndef TRONGAME_GAMEBAR_H
 #define TRONGAME_GAMEBAR_H
@@ -27,6 +24,5 @@ public:
 
     void setTextProperties();
 };
-
 
 #endif //TRONGAME_GAMEBAR_H

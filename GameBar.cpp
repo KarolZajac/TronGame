@@ -1,6 +1,3 @@
-//
-// Created by Karol on 10.06.2021.
-//
 
 #include "GameBar.h"
 #include <sstream>
@@ -42,6 +39,7 @@ void GameBar::updateTexts(Player &player1, Player &player2, float time) {
     std::string si5;
     ss5 >> si5;
 
+    //set new texts
     p1Score.setString("Wins: " + si);
     p2Score.setString("Wins: " + si2);
     p1Covered.setString("Covered: " + si3);

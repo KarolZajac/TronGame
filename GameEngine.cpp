@@ -2,10 +2,6 @@
 
 #include <iostream>
 #include "GameEngine.h"
-#include <sstream>
-#include "Player.h"
-#include "SFML/Graphics.hpp"
-#include "GameBar.h"
 
 using namespace sf;
 
@@ -26,11 +22,11 @@ void GameEngine::run(int mode) {
     RenderWindow window(VideoMode(board.W * board.size, board.H * board.size), "TronGame");
     initPlayers();
 
-    float timer = 0, delay = 0.1;
+    float timer = 0, delay = 0.075;
     Clock clock;
     float countdown = gameTime;
 
-    int x1 = board.size, y1 = 0, x2 = board.size, y2 = 0;
+    int x1 = board.size, y1 = 0, x2 = -board.size, y2 = 0;
 
     while (window.isOpen()) {
 
@@ -126,8 +122,8 @@ void GameEngine::updateMove(int &x1, int &x2, int &y1, int &y2) const {
 
 //random player start positions
 void GameEngine::initPlayers() {
-    this->player1.changePosition(board.W * board.size / 4, board.H * board.size / 2);
-    this->player2.changePosition(board.W * board.size - board.W * board.size / 4, board.H * board.size / 2);
+    this->player1.changePosition(board.W * board.size / 5, board.H * board.size / 2);
+    this->player2.changePosition(board.W * board.size - board.W * board.size / 5, board.H * board.size / 2);
     this->player1.covered = 0;
     this->player2.covered = 0;
 }
