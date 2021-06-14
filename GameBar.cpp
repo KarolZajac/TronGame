@@ -55,7 +55,7 @@ void GameBar::setTextProperties() {
     this->p2Score.setFont(this->font);
     this->p1Score.setString("Wins: ");
     this->p2Score.setString("Wins: ");
-    this->p1Score.setFillColor(Color::Red);
+    this->p1Score.setFillColor(Color(255,90,0));
     this->p2Score.setFillColor(Color::Cyan);
 
     //covered tiles
@@ -63,7 +63,7 @@ void GameBar::setTextProperties() {
     this->p2Covered.setFont(this->font);
     this->p1Covered.setString("Covered: ");
     this->p2Covered.setString("Covered: ");
-    this->p1Covered.setFillColor(Color::Red);
+    this->p1Covered.setFillColor(Color(255,90,0));
     this->p2Covered.setFillColor(Color::Cyan);
     this->p1Covered.setCharacterSize(20);
     this->p2Covered.setCharacterSize(20);

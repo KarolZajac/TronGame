@@ -31,7 +31,7 @@ void Menu::moveRight() {
     if (selectedItemIndex + 1 < MAX_NUMBER_OF_ITEMS) {
         menu[selectedItemIndex].setFillColor(Color::White);
         selectedItemIndex++;
-        menu[selectedItemIndex].setFillColor(Color::Cyan);
+        menu[selectedItemIndex].setFillColor(Color(255,90,0));
     }
 }
 
@@ -44,7 +44,7 @@ int Menu::startMenu() const {
     Menu menu_opt(window.getSize().x, window.getSize().y);
 
     Image image;
-    image.loadFromFile("resources/menu_background.png");
+    image.loadFromFile("resources/menu_background.jpg");
 
     Texture texture;
     texture.loadFromImage(image);
@@ -95,7 +95,7 @@ void Menu::setProperties() {
     menu[0].setCharacterSize(40);
     menu[0].setFillColor(sf::Color::Cyan);
     menu[0].setString("COVERED-MODE");
-    menu[0].setPosition(width / 5 - 50, height - height / 5);
+    menu[0].setPosition(width / 5 - 80, height - height / 5);
 
     //for mode 1
     menu[1].setFont(font);
