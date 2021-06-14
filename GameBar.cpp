@@ -2,6 +2,7 @@
 #include "GameBar.h"
 #include <sstream>
 #include <iomanip>
+#include <iostream>
 
 GameBar::GameBar() {
     this->font = loadFont();
@@ -9,7 +10,7 @@ GameBar::GameBar() {
 
 Font GameBar::loadFont() {
     Font f;
-    f.loadFromFile("fonts/CENTAUR.TTF");
+    if (!f.loadFromFile("fonts/CENTAUR.TTF")) { std::cout << "Cannot load font!"; }
     return f;
 }
 
@@ -35,7 +36,7 @@ void GameBar::updateTexts(Player &player1, Player &player2, float time) {
     ss4 >> si4;
 
     std::stringstream ss5;
-    ss5 << std::setprecision(2)<< time;
+    ss5 << std::setprecision(2) << time;
     std::string si5;
     ss5 >> si5;
 

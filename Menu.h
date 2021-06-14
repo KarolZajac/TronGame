@@ -8,19 +8,19 @@
 #include "SFML/Graphics.hpp"
 
 using namespace sf;
+
 class Menu {
 private:
     int selectedItemIndex;
     Font font;
     Text menu[MAX_NUMBER_OF_ITEMS];
     Text instruction;
+
 public:
     float width;
     float height;
 
     Menu(float width, float height);
-
-    ~Menu();
 
     void draw(RenderWindow &window);
 
@@ -31,6 +31,8 @@ public:
     int getPressedItem() const { return selectedItemIndex; }
 
     int startMenu() const;
+
+    void setProperties();
 
 };
 

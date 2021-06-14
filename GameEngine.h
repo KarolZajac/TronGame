@@ -30,7 +30,7 @@ public:
         this->gameTime = time;
     }
 
-    void run( int mode );
+    void run(int mode);
 
     void initPlayers();
 
@@ -47,6 +47,7 @@ public:
     void moveHandle(int &x1, int &x2, int &y1, int &y2);
 
     void setBoardAndBar();
+
 };
 
 

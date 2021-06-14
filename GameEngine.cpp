@@ -1,5 +1,4 @@
 
-
 #include <iostream>
 #include "GameEngine.h"
 
@@ -22,6 +21,7 @@ void GameEngine::run(int mode) {
     RenderWindow window(VideoMode(board.W * board.size, board.H * board.size), "TronGame");
     initPlayers();
 
+    //delay for keyboard presses
     float timer = 0, delay = 0.075;
     Clock clock;
     float countdown = gameTime;
@@ -37,14 +37,12 @@ void GameEngine::run(int mode) {
         bar.updateTexts(player1, player2, countdown);
 
         int collision = 0;
-
         if (mode == 0) { x1 = 0, y1 = 0, x2 = 0, y2 = 0; }
 
         float time = clock.getElapsedTime().asSeconds();
         clock.restart();
         timer += time;
         countdown -= time;
-
 
         if (mode == 0 && countdown <= 0) {
             checkWinner();
@@ -93,7 +91,7 @@ void GameEngine::run(int mode) {
 
         window.draw((this->bar.p1Score));
         window.draw((this->bar.p2Score));
-        if( mode == 0 ){
+        if (mode == 0) {
             window.draw((this->bar.p1Covered));
             window.draw((this->bar.p2Covered));
             window.draw((this->bar.timer));
@@ -157,11 +155,14 @@ void GameEngine::saveTrace() {
 }
 
 void GameEngine::checkWinner() {
+    //check who won by covering more board tiles
+    //*checked only in covered mode*
     if (player1.covered > player2.covered) { player1.score++; }
     else if (player2.covered > player1.covered) { player2.score++; }
 }
 
 void GameEngine::nextRound(int &x1, int &x2, int &y1, int &y2, int mode) {
+    //reset data for next round
     //sleep(seconds(3));
     initPlayers();
     if (mode == 0) {
@@ -170,7 +171,6 @@ void GameEngine::nextRound(int &x1, int &x2, int &y1, int &y2, int mode) {
         x2 = 0;
         y2 = 0;
     }
-
     board.traceArray = Board::create2DArray(board.W, board.H);
 }
 
@@ -186,6 +186,7 @@ void GameEngine::moveHandle(int &x1, int &x2, int &y1, int &y2) {
 }
 
 void GameEngine::setBoardAndBar() {
+    //set board and bar properties
     board.loadTextures();
     bar.setTextProperties();
     bar.p1Score.setPosition(0, 0);
@@ -194,6 +195,7 @@ void GameEngine::setBoardAndBar() {
     bar.p2Covered.setPosition((float) (board.W * board.size - 100), 30);
     bar.timer.setPosition((float) (board.W * board.size / 2.0 - 65), 0);
 }
+
 
 
 

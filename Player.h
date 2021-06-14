@@ -13,8 +13,6 @@ public:
 
     Player() = default;;
 
-    Player(int x, int y);
-
     void changePosition(int x, int y);
 };
 

@@ -16,6 +16,7 @@ public:
     Text p1Covered;
     Text p2Covered;
     Text timer;
+
     GameBar();
 
     static Font loadFont();
