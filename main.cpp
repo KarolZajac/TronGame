@@ -7,8 +7,8 @@ int main() {
     std::cout << "Welcome in Tron Game !!!" << std::endl;
     Board board = Board(60, 34, 20);
     Menu menu((float) (board.size * board.W), (float) (board.size * board.H));
-    int mode = Menu::startMenu();
-
+    int mode = menu.startMenu();
+    if (mode == -1 ) {printf("Menu closed!") ;return 0;}
     Player player1 = Player();
     Player player2 = Player();
     GameEngine game = GameEngine(board, player1, player2, 40.f);

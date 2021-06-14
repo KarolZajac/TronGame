@@ -9,26 +9,28 @@
 
 using namespace sf;
 class Menu {
-
+private:
+    int selectedItemIndex;
+    Font font;
+    Text menu[MAX_NUMBER_OF_ITEMS];
+    Text instruction;
 public:
+    float width;
+    float height;
+
     Menu(float width, float height);
 
     ~Menu();
 
     void draw(RenderWindow &window);
 
-    void moveUp();
+    void moveLeft();
 
-    void moveDown();
+    void moveRight();
 
     int getPressedItem() const { return selectedItemIndex; }
 
-    static int startMenu();
-
-private:
-    int selectedItemIndex;
-    Font font;
-    Text menu[MAX_NUMBER_OF_ITEMS];
+    int startMenu() const;
 
 };
 
