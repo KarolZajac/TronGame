@@ -22,7 +22,7 @@ void GameEngine::run(int mode) {
     initPlayers();
 
     //delay for keyboard presses
-    float timer = 0, delay = 0.075;
+    float timer = 0, delay = 0.2;
     Clock clock;
     float countdown = gameTime;
 
@@ -36,7 +36,6 @@ void GameEngine::run(int mode) {
         //update wins, covered tiles and timer
         bar.updateTexts(player1, player2, countdown);
 
-        int collision = 0;
         if (mode == 0) { x1 = 0, y1 = 0, x2 = 0, y2 = 0; }
 
         float time = clock.getElapsedTime().asSeconds();
@@ -55,14 +54,12 @@ void GameEngine::run(int mode) {
 
         if (timer > delay) {
             moveHandle(x1, x2, y1, y2);
-            collision = checkCollision(x1, x2, y1, y2);
+            if (checkCollision(x1, x2, y1, y2)) {
+                nextRound(x1, x2, y1, y2, mode);
+                countdown = gameTime;
+            }
             saveTrace();
             timer = 0;
-        }
-
-        if (collision == 1) {
-            nextRound(x1, x2, y1, y2, mode);
-            countdown = gameTime;
         }
 
         window.clear();
@@ -137,7 +134,15 @@ bool GameEngine::checkCollision(int &x1, int &x2, int &y1, int &y2) {
         board.traceArray[player2.yPosition / board.size][player2.xPosition / board.size] == 1) {
         player1.score++;
         return true;
-    } else return false;
+    }
+    //handle frontal collision == both get score
+    if (player1.xPosition == player2.xPosition && player1.yPosition == player2.yPosition) {
+        player1.score++;
+        player2.score++;
+        return true;
+    }
+
+    return false;
 }
 
 void GameEngine::saveTrace() {
