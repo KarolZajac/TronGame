@@ -46,7 +46,7 @@ void GameBar::updateTexts(Player &player1, Player &player2, float time) {
     p2Score.setString("Wins: " + si2);
     p1Covered.setString("Covered: " + si3);
     p2Covered.setString("Covered: " + si4);
-    timer.setString(si5);
+    timer.setString("Time left: " + si5 + " s");
 }
 
 void GameBar::setTextProperties() {

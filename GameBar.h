@@ -12,9 +12,8 @@ using namespace sf;
 
 class GameBar {
 
-    static Font loadFont();
-
 public:
+    Font font;
     Text p1Score;
     Text p2Score;
     Text p1Covered;
@@ -22,10 +21,9 @@ public:
     Text timer;
     GameBar();
 
+    static Font loadFont();
+
     void updateTexts(Player &player1, Player &player2, float time);
-
-
-    Font font;
 
     void setTextProperties();
 };

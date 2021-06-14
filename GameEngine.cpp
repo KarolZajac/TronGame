@@ -9,7 +9,7 @@
 
 using namespace sf;
 
-void GameEngine::run() {
+void GameEngine::run(int mode) {
 
     //set board and bar
     setBoardAndBar();
@@ -22,31 +22,37 @@ void GameEngine::run() {
     Player2.setScale((float) board.size / 16, (float) board.size / 16);
     Background.setScale((float) board.size / 16, (float) board.size / 16);
 
+    //create window and init players
     RenderWindow window(VideoMode(board.W * board.size, board.H * board.size), "TronGame");
     initPlayers();
 
-    float timer = 0, delay = 0.05;
+    float timer = 0, delay = 0.1;
     Clock clock;
     float countdown = gameTime;
+
+    int x1 = board.size, y1 = 0, x2 = board.size, y2 = 0;
 
     while (window.isOpen()) {
 
         Event event{};
-        while (window.pollEvent(event)) { if (event.type == Event::Closed) { window.close(); } }
+        while (window.pollEvent(event)) { if (event.type == Event::Closed) { window.close(); }}
 
         //update wins, covered tiles and timer
         bar.updateTexts(player1, player2, countdown);
 
         int collision = 0;
-        int x1 = 0, y1 = 0, x2 = 0, y2 = 0;
+
+        if (mode == 0) { x1 = 0, y1 = 0, x2 = 0, y2 = 0; }
 
         float time = clock.getElapsedTime().asSeconds();
         clock.restart();
-        timer += time; countdown -= time;
+        timer += time;
+        countdown -= time;
 
-        if (countdown <= 0) {
+
+        if (mode == 0 && countdown <= 0) {
             checkWinner();
-            nextRound(x1, x2, y1, y2);
+            nextRound(x1, x2, y1, y2, mode);
             clock.restart();
             countdown = gameTime;
             continue;
@@ -60,7 +66,10 @@ void GameEngine::run() {
             timer = 0;
         }
 
-        if (collision == 1) { nextRound(x1, x2, y1, y2); countdown = gameTime; }
+        if (collision == 1) {
+            nextRound(x1, x2, y1, y2, mode);
+            countdown = gameTime;
+        }
 
         window.clear();
 
@@ -88,9 +97,11 @@ void GameEngine::run() {
 
         window.draw((this->bar.p1Score));
         window.draw((this->bar.p2Score));
-        window.draw((this->bar.p1Covered));
-        window.draw((this->bar.p2Covered));
-        window.draw((this->bar.timer));
+        if( mode == 0 ){
+            window.draw((this->bar.p1Covered));
+            window.draw((this->bar.p2Covered));
+            window.draw((this->bar.timer));
+        }
         window.display();
     }
 }
@@ -115,8 +126,8 @@ void GameEngine::updateMove(int &x1, int &x2, int &y1, int &y2) const {
 
 //random player start positions
 void GameEngine::initPlayers() {
-    this->player1.changePosition(board.W* board.size/4, board.H* board.size/2);
-    this->player2.changePosition(board.W* board.size - board.W* board.size/4, board.H* board.size/2);
+    this->player1.changePosition(board.W * board.size / 4, board.H * board.size / 2);
+    this->player2.changePosition(board.W * board.size - board.W * board.size / 4, board.H * board.size / 2);
     this->player1.covered = 0;
     this->player2.covered = 0;
 }
@@ -154,13 +165,16 @@ void GameEngine::checkWinner() {
     else if (player2.covered > player1.covered) { player2.score++; }
 }
 
-void GameEngine::nextRound(int &x1, int &x2, int &y1, int &y2) {
-    sleep(seconds(3));
+void GameEngine::nextRound(int &x1, int &x2, int &y1, int &y2, int mode) {
+    //sleep(seconds(3));
     initPlayers();
-    x1 = 0;
-    y1 = 0;
-    x2 = 0;
-    y2 = 0;
+    if (mode == 0) {
+        x1 = 0;
+        y1 = 0;
+        x2 = 0;
+        y2 = 0;
+    }
+
     board.traceArray = Board::create2DArray(board.W, board.H);
 }
 
@@ -182,8 +196,10 @@ void GameEngine::setBoardAndBar() {
     bar.p2Score.setPosition((float) (board.W * board.size - 100), 0);
     bar.p1Covered.setPosition(0, 30);
     bar.p2Covered.setPosition((float) (board.W * board.size - 100), 30);
-    bar.timer.setPosition((float) (board.W * board.size /2.0), 0);
+    bar.timer.setPosition((float) (board.W * board.size / 2.0 - 65), 0);
 }
+
+
 
 
 

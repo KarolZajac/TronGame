@@ -13,6 +13,7 @@
 using namespace sf;
 
 class GameEngine {
+
     GameBar bar;
     Board board{};
     Player player1{};
@@ -29,7 +30,7 @@ public:
         this->gameTime = time;
     }
 
-    void run();
+    void run( int mode );
 
     void initPlayers();
 
@@ -41,7 +42,7 @@ public:
 
     void checkWinner();
 
-    void nextRound(int &x1, int &x2, int &y1, int &y2);
+    void nextRound(int &x1, int &x2, int &y1, int &y2, int mode);
 
     void moveHandle(int &x1, int &x2, int &y1, int &y2);
 
