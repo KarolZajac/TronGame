@@ -1,7 +1,6 @@
 #include <iostream>
 #include "GameEngine.h"
 #include "Menu.h"
-#include <SFML/Graphics.hpp>
 
 int main() {
     std::cout << "Welcome in Tron Game !!!" << std::endl;

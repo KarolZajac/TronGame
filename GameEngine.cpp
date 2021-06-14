@@ -22,7 +22,7 @@ void GameEngine::run(int mode) {
     initPlayers();
 
     //delay for keyboard presses
-    float timer = 0, delay = 0.2;
+    float timer = 0, delay = 0.075;
     Clock clock;
     float countdown = gameTime;
 
@@ -156,7 +156,6 @@ void GameEngine::saveTrace() {
         board.traceArray[player2.yPosition / board.size][player2.xPosition / board.size] = 2;
         player2.covered++;
     }
-
 }
 
 void GameEngine::checkWinner() {
@@ -194,10 +193,10 @@ void GameEngine::setBoardAndBar() {
     //set board and bar properties
     board.loadTextures();
     bar.setTextProperties();
-    bar.p1Score.setPosition(0, 0);
-    bar.p2Score.setPosition((float) (board.W * board.size - 100), 0);
-    bar.p1Covered.setPosition(0, 30);
-    bar.p2Covered.setPosition((float) (board.W * board.size - 100), 30);
+    bar.p1Score.setPosition(20, 0);
+    bar.p2Score.setPosition((float) (board.W * board.size - 120), 0);
+    bar.p1Covered.setPosition(15, 30);
+    bar.p2Covered.setPosition((float) (board.W * board.size - 115), 30);
     bar.timer.setPosition((float) (board.W * board.size / 2.0 - 65), 0);
 }
 
